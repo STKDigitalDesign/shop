@@ -14,7 +14,6 @@
     </style>
 </head>
 <body class="bg-[#0a0a0f] text-white">
-    <!-- NAVBAR -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
         <div class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -34,26 +33,78 @@
 
     <div class="pt-24 max-w-2xl mx-auto px-8 py-20">
         <h1 class="title-font text-5xl font-bold text-center mb-8">Start Your Project</h1>
-        <p class="text-center text-gray-400 mb-12">Tell us what you need — we’ll reply fast.</p>
         
         <form action="https://formspree.io/f/xdarbvko" method="POST" class="glass rounded-3xl p-10 space-y-8">
-            <input type="text" name="name" placeholder="Your Name" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-400">
+            <input type="text" name="name" placeholder="Your Name" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
+            <input type="email" name="email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
+            <input type="text" name="discord" placeholder="Discord Username" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
+
+            <!-- Service Dropdown -->
+            <div>
+                <label class="block text-sm mb-2 text-gray-400">What do you want?</label>
+                <select id="service" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
+                    <option value="0">Select Service</option>
+                    <!-- Individual Items -->
+                    <option value="10">Logo - $10</option>
+                    <option value="20">Stream Banner - $20</option>
+                    <option value="25">Discord Server Setup - $25</option>
+                    <option value="25">Alerts / Notifications - $25</option>
+                    <option value="30">Emotes & Badges - $30</option>
+                    <option value="35">YouTube Thumbnail (single) - $35</option>
+                    <option value="45">Social Media Overlay - $45</option>
+                    <option value="49">Twitch/Kick Overlay - $49</option>
+                    <!-- Packs -->
+                    <option value="79">Full Stream Pack (Overlays + Alerts + BRB + Ending) - $79</option>
+                    <option value="99">Complete Brand Kit - $99</option>
+                    <option value="0">Custom Request</option>
+                </select>
+            </div>
+
+            <!-- Tip -->
+            <div>
+                <label class="block text-sm mb-3 text-gray-400">Optional Tip</label>
+                <div class="flex gap-3">
+                    <button type="button" onclick="addTip(15)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">15%</button>
+                    <button type="button" onclick="addTip(20)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">20%</button>
+                    <button type="button" onclick="addTip(25)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">25%</button>
+                </div>
+                <input type="number" id="customTip" placeholder="Custom tip %" class="mt-3 w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5" oninput="updateTotal()">
+            </div>
+
+            <div id="totalDisplay" class="text-4xl font-bold text-indigo-400 text-center py-6 border border-white/10 rounded-3xl">
+                Total: $0.00
+            </div>
+
+            <textarea name="description" rows="6" placeholder="More details, style references, colors, etc..." class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5"></textarea>
             
-            <input type="email" name="email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-400">
-            
-            <input type="text" name="discord" placeholder="Discord Username" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-400">
-            
-            <textarea name="description" rows="8" placeholder="Describe what you want (logos, overlays, Discord server, social graphics, etc.)" 
-                      class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5 focus:outline-none focus:border-indigo-400"></textarea>
-            
-            <button type="submit" 
-                    class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg hover:brightness-110 transition-all">
+            <button type="submit" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg">
                 Submit Order Request
             </button>
         </form>
-        
-        <p class="text-center text-xs text-gray-500 mt-8">All submissions go to noahwhitt0506@gmail.com</p>
     </div>
+
+    <script>
+        let basePrice = 0;
+        const serviceSelect = document.getElementById('service');
+        const totalDisplay = document.getElementById('totalDisplay');
+
+        serviceSelect.addEventListener('change', () => {
+            basePrice = parseFloat(serviceSelect.value) || 0;
+            updateTotal();
+        });
+
+        function addTip(percent) {
+            document.getElementById('customTip').value = percent;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const tipPercent = parseFloat(document.getElementById('customTip').value) || 0;
+            const tipAmount = basePrice * (tipPercent / 100);
+            const total = basePrice + tipAmount;
+            totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
+        }
+    </script>
 
     <footer class="bg-black py-12 text-center text-sm text-gray-500">© 2026 STK Digital Design</footer>
 </body>
