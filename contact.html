@@ -11,6 +11,15 @@
         body { font-family: 'Inter', system_ui, sans-serif; }
         .title-font { font-family: 'Space Grotesk', sans-serif; }
         .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); }
+        
+        select {
+            color: black !important;
+            background-color: white !important;
+        }
+        select option {
+            color: black;
+            background-color: white;
+        }
     </style>
 </head>
 <body class="bg-[#0a0a0f] text-white">
@@ -39,28 +48,24 @@
             <input type="email" name="email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
             <input type="text" name="discord" placeholder="Discord Username" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
 
-            <!-- Service Dropdown -->
             <div>
                 <label class="block text-sm mb-2 text-gray-400">What do you want?</label>
-                <select id="service" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
+                <select id="service" class="w-full border border-white/20 rounded-2xl px-6 py-5 text-black">
                     <option value="0">Select Service</option>
-                    <!-- Individual Items -->
                     <option value="10">Logo - $10</option>
                     <option value="20">Stream Banner - $20</option>
                     <option value="25">Discord Server Setup - $25</option>
                     <option value="25">Alerts / Notifications - $25</option>
                     <option value="30">Emotes & Badges - $30</option>
-                    <option value="35">YouTube Thumbnail (single) - $35</option>
+                    <option value="35">YouTube Thumbnail - $35</option>
                     <option value="45">Social Media Overlay - $45</option>
                     <option value="49">Twitch/Kick Overlay - $49</option>
-                    <!-- Packs -->
-                    <option value="79">Full Stream Pack (Overlays + Alerts + BRB + Ending) - $79</option>
+                    <option value="79">Full Stream Pack - $79</option>
                     <option value="99">Complete Brand Kit - $99</option>
                     <option value="0">Custom Request</option>
                 </select>
             </div>
 
-            <!-- Tip -->
             <div>
                 <label class="block text-sm mb-3 text-gray-400">Optional Tip</label>
                 <div class="flex gap-3">
@@ -68,14 +73,14 @@
                     <button type="button" onclick="addTip(20)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">20%</button>
                     <button type="button" onclick="addTip(25)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">25%</button>
                 </div>
-                <input type="number" id="customTip" placeholder="Custom tip %" class="mt-3 w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5" oninput="updateTotal()">
+                <input type="number" id="customTip" placeholder="Custom tip %" class="mt-3 w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white" oninput="updateTotal()">
             </div>
 
             <div id="totalDisplay" class="text-4xl font-bold text-indigo-400 text-center py-6 border border-white/10 rounded-3xl">
                 Total: $0.00
             </div>
 
-            <textarea name="description" rows="6" placeholder="More details, style references, colors, etc..." class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5"></textarea>
+            <textarea name="description" rows="6" placeholder="More details, references, colors..." class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5"></textarea>
             
             <button type="submit" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg">
                 Submit Order Request
