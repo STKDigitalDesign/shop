@@ -12,10 +12,7 @@
         .title-font { font-family: 'Space Grotesk', sans-serif; }
         .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); }
         
-        select {
-            color: black !important;
-            background-color: white !important;
-        }
+        select { color: black !important; background-color: white !important; }
     </style>
 </head>
 <body class="bg-[#0a0a0f] text-white">
@@ -46,18 +43,18 @@
 
             <div>
                 <label class="block text-sm mb-2 text-gray-400">What do you want?</label>
-                <select id="service" class="w-full border border-white/20 rounded-2xl px-6 py-5 text-black">
-                    <option value="0">Select Service</option>
-                    <option value="10">Logo - $10</option>
-                    <option value="20">Stream Banner - $20</option>
-                    <option value="35">Discord Server Setup - $35</option>
-                    <option value="25">Alerts / Notifications - $25</option>
-                    <option value="35">Thumbnail Pack (5 Thumbnails, Banner, Profile Picture) - $35</option>
-                    <option value="45">Social Media Overlay - $45</option>
-                    <option value="49">Stream Pack (Overlay Set, Alerts, Unlimited Revisions) - $49</option>
-                    <option value="79">Full Stream Pack - $79</option>
-                    <option value="99">Complete Brand Kit - $99</option>
-                    <option value="0">Custom Request</option>
+                <select id="service" name="service" class="w-full border border-white/20 rounded-2xl px-6 py-5 text-black">
+                    <option value="">Select Service</option>
+                    <option value="Logo - $10">Logo - $10</option>
+                    <option value="Stream Banner - $20">Stream Banner - $20</option>
+                    <option value="Discord Server Setup - $35">Discord Server Setup - $35</option>
+                    <option value="Alerts / Notifications - $25">Alerts / Notifications - $25</option>
+                    <option value="YouTube Thumbnail Pack - $35">YouTube Thumbnail Pack - $35</option>
+                    <option value="Social Media Overlay - $45">Social Media Overlay - $45</option>
+                    <option value="Twitch/Kick Overlay - $49">Twitch/Kick Overlay - $49</option>
+                    <option value="Full Stream Pack - $79">Full Stream Pack - $79</option>
+                    <option value="Complete Brand Kit - $99">Complete Brand Kit - $99</option>
+                    <option value="Custom Request">Custom Request</option>
                 </select>
             </div>
 
@@ -68,16 +65,20 @@
                     <button type="button" onclick="addTip(20)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">20%</button>
                     <button type="button" onclick="addTip(25)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">25%</button>
                 </div>
-                <input type="number" id="customTip" placeholder="Custom tip %" class="mt-3 w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white" oninput="updateTotal()">
+                <input type="number" id="customTip" name="tip_percent" placeholder="Custom tip %" class="mt-3 w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white" oninput="updateTotal()">
             </div>
 
             <div id="totalDisplay" class="text-4xl font-bold text-indigo-400 text-center py-6 border border-white/10 rounded-3xl">
                 Total: $0.00
             </div>
 
+            <!-- Hidden fields so Formspree gets everything -->
+            <input type="hidden" id="hidden_total" name="total">
+            <input type="hidden" id="hidden_service" name="selected_service">
+
             <textarea name="description" rows="6" placeholder="More details, references, colors..." class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5"></textarea>
             
-            <button type="submit" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg">
+            <button type="submit" onclick="prepareForm()" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg">
                 Submit Order Request
             </button>
         </form>
@@ -89,7 +90,7 @@
         const totalDisplay = document.getElementById('totalDisplay');
 
         serviceSelect.addEventListener('change', () => {
-            basePrice = parseFloat(serviceSelect.value) || 0;
+            basePrice = parseFloat(serviceSelect.value.split('$')[1]) || 0;
             updateTotal();
         });
 
@@ -104,8 +105,14 @@
             const total = basePrice + tipAmount;
             totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
         }
+
+        function prepareForm() {
+            // Send clean data to Formspree
+            document.getElementById('hidden_total').value = totalDisplay.textContent;
+            document.getElementById('hidden_service').value = serviceSelect.value || "Not selected";
+        }
     </script>
 
-    <footer class="bg-black py-12 text-center text-sm text-gray-500"> © 2026 STK Digital Design</footer>
+    <footer class="bg-black py-12 text-center text-sm text-gray-500">© 2026 STK Digital Design</footer>
 </body>
 </html>
