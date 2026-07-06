@@ -35,14 +35,14 @@
     <div class="pt-24 max-w-2xl mx-auto px-8 py-20">
         <h1 class="title-font text-5xl font-bold text-center mb-8">Start Your Project</h1>
         
-        <form action="https://formspree.io/f/xdarbvko" method="POST" class="glass rounded-3xl p-10 space-y-8" onsubmit="prepareForm()">
+        <form action="https://formspree.io/f/xdarbvko" method="POST" class="glass rounded-3xl p-10 space-y-8">
             <input type="text" name="name" placeholder="Your Name" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
             <input type="email" name="email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
-            <input type="text" name="discord_username" placeholder="Discord Username" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
+            <input type="text" name="discord" placeholder="Discord Username" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
 
             <div>
                 <label class="block text-sm mb-2 text-gray-400">What do you want?</label>
-                <select id="service" name="service" class="w-full border border-white/20 rounded-2xl px-6 py-5 text-black">
+                <select name="service" class="w-full border border-white/20 rounded-2xl px-6 py-5 text-black">
                     <option value="">Select Service</option>
                     <option value="Logo - $10">Logo - $10</option>
                     <option value="Stream Banner - $20">Stream Banner - $20</option>
@@ -57,60 +57,14 @@
                 </select>
             </div>
 
-            <div>
-                <label class="block text-sm mb-3 text-gray-400">Optional Tip</label>
-                <div class="flex gap-3">
-                    <button type="button" onclick="addTip(15)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">15%</button>
-                    <button type="button" onclick="addTip(20)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">20%</button>
-                    <button type="button" onclick="addTip(25)" class="flex-1 py-3 bg-white/10 hover:bg-white/20 rounded-2xl">25%</button>
-                </div>
-                <input type="number" id="customTip" name="tip_percent" placeholder="Custom tip %" class="mt-3 w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white" oninput="updateTotal()">
-            </div>
-
-            <div id="totalDisplay" class="text-4xl font-bold text-indigo-400 text-center py-6 border border-white/10 rounded-3xl">
-                Total: $0.00
-            </div>
-
-            <!-- Hidden fields for Formspree -->
-            <input type="hidden" name="calculated_total" id="hidden_total">
-            <input type="hidden" name="selected_service" id="hidden_service">
-
-            <textarea name="description" rows="6" placeholder="More details, references, colors..." class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5"></textarea>
+            <textarea name="description" rows="8" placeholder="Tell us more details (colors, style, references, deadline, etc.)" 
+                      class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5"></textarea>
             
             <button type="submit" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg">
                 Submit Order Request
             </button>
         </form>
     </div>
-
-    <script>
-        let basePrice = 0;
-        const serviceSelect = document.getElementById('service');
-        const totalDisplay = document.getElementById('totalDisplay');
-
-        serviceSelect.addEventListener('change', () => {
-            const val = serviceSelect.value;
-            basePrice = parseFloat(val.split('$')[1]) || 0;
-            updateTotal();
-        });
-
-        function addTip(percent) {
-            document.getElementById('customTip').value = percent;
-            updateTotal();
-        }
-
-        function updateTotal() {
-            const tipPercent = parseFloat(document.getElementById('customTip').value) || 0;
-            const tipAmount = basePrice * (tipPercent / 100);
-            const total = basePrice + tipAmount;
-            totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
-        }
-
-        function prepareForm() {
-            document.getElementById('hidden_total').value = totalDisplay.textContent;
-            document.getElementById('hidden_service').value = serviceSelect.value || "None selected";
-        }
-    </script>
 
     <footer class="bg-black py-12 text-center text-sm text-gray-500">© 2026 STK Digital Design</footer>
 </body>
