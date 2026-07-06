@@ -11,7 +11,6 @@
         body { font-family: 'Inter', system_ui, sans-serif; }
         .title-font { font-family: 'Space Grotesk', sans-serif; }
         .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); }
-        
         select { color: black !important; background-color: white !important; }
     </style>
 </head>
@@ -36,10 +35,10 @@
     <div class="pt-24 max-w-2xl mx-auto px-8 py-20">
         <h1 class="title-font text-5xl font-bold text-center mb-8">Start Your Project</h1>
         
-        <form action="https://formspree.io/f/xdarbvko" method="POST" class="glass rounded-3xl p-10 space-y-8">
+        <form action="https://formspree.io/f/xdarbvko" method="POST" class="glass rounded-3xl p-10 space-y-8" onsubmit="prepareForm()">
             <input type="text" name="name" placeholder="Your Name" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
             <input type="email" name="email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
-            <input type="text" name="discord" placeholder="Discord Username" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
+            <input type="text" name="discord_username" placeholder="Discord Username" class="w-full bg-white/5 border border-white/20 rounded-2xl px-6 py-5">
 
             <div>
                 <label class="block text-sm mb-2 text-gray-400">What do you want?</label>
@@ -72,13 +71,13 @@
                 Total: $0.00
             </div>
 
-            <!-- Hidden fields so Formspree gets everything -->
-            <input type="hidden" id="hidden_total" name="total">
-            <input type="hidden" id="hidden_service" name="selected_service">
+            <!-- Hidden fields for Formspree -->
+            <input type="hidden" name="calculated_total" id="hidden_total">
+            <input type="hidden" name="selected_service" id="hidden_service">
 
             <textarea name="description" rows="6" placeholder="More details, references, colors..." class="w-full bg-white/5 border border-white/20 rounded-3xl px-6 py-5"></textarea>
             
-            <button type="submit" onclick="prepareForm()" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg">
+            <button type="submit" class="w-full py-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl font-bold text-lg">
                 Submit Order Request
             </button>
         </form>
@@ -90,7 +89,8 @@
         const totalDisplay = document.getElementById('totalDisplay');
 
         serviceSelect.addEventListener('change', () => {
-            basePrice = parseFloat(serviceSelect.value.split('$')[1]) || 0;
+            const val = serviceSelect.value;
+            basePrice = parseFloat(val.split('$')[1]) || 0;
             updateTotal();
         });
 
@@ -107,9 +107,8 @@
         }
 
         function prepareForm() {
-            // Send clean data to Formspree
             document.getElementById('hidden_total').value = totalDisplay.textContent;
-            document.getElementById('hidden_service').value = serviceSelect.value || "Not selected";
+            document.getElementById('hidden_service').value = serviceSelect.value || "None selected";
         }
     </script>
 
